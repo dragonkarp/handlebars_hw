@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <ul>
+                {{#each burgerData}}
+                {{#unless devoured}}
+                <li>
+                    {{burger_name}} <button class="devoured-btn" data-id={{id}}>DEVOUR</button>
+                </li>
+                {{/unless}}
+                {{/each}}
+            </ul>
+        </div>
+        <img src="../assets/burg.png" alt="BURGERS!!!">
+        <div class="col-sm-6">
+                {{#each burgerData}}
+                {{#if devoured}}
+                <li>{{burger_name}}</li>
+                {{/if}}
+                {{/each}}
+        </div>
+    </div>
+</div>
+
+<form action="/api/burgers" method="POST" class="addBurger">
+<input type="text" name="burger_name">
+<button>ADD BURGER</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        let devour = $(".devoured-btn")
+      
+        devour.on("click", function() {
+            let id = $(this).attr("data-id") // review this
+            $.ajax({
+                method: "PUT",
+                url: "/api/burgers/" + id,
+            }).then(function() {
+                location.reload()
+            })
+        })
+    })
+</script>
